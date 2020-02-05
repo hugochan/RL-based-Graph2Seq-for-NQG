@@ -1,0 +1,144 @@
+# Data
+dataset_name: 'squad-split2'
+trainset: '../data/squad-split2/train_sent_pre.v5.json'
+devset: '../data/squad-split2/dev_sent_pre.v5.json'
+testset: '../data/squad-split2/test_sent_pre.v5.json'
+pretrained_word_embed_file: null
+wmd_emb_file: '../data/squad-split2/glove_vectors.w2v'
+saved_vocab_file: '../data/squad-split2/vocab_model_70k'
+pretrained: '../out/squad-split2/graph2seq_static_bert_finetune_rl_fixed_ratio_0.99_lr_0.00001_new_new'
+
+# Output
+out_dir: null
+
+
+# Preprocessing
+top_word_vocab: 70000
+min_word_freq: 1
+max_dec_steps: 41 # Including the EOS symbol
+
+
+# Model architecture
+model_name: 'graph2seq'
+
+
+# Embedding
+word_embed_dim: 300
+fix_word_embed: True
+f_case: True # Case feature
+f_pos: True # POS feature
+f_ner: True # NER feature
+f_freq: False # frequency feature
+f_dep: False # Dependency feature
+f_ans: True
+case_embed_dim: 3
+pos_embed_dim: 12
+ner_embed_dim: 8
+freq_embed_dim: 3
+edge_embed_dim: 12
+high_freq_rank: 100
+low_freq_rank: 2000
+
+
+
+hidden_size: 300
+rnn_type: 'lstm'
+dec_hidden_size: 300  # if set, a matrix will transform enc state into dec state
+enc_bidi: True
+num_enc_rnn_layers: 1
+rnn_size: 300
+
+# Attention & copy
+enc_attn: True  # decoder has attention over encoder states?
+dec_attn: False  # decoder has attention over previous decoder states?
+pointer: True  # use pointer network (copy mechanism) in addition to word generator?
+pointer_loss_ratio: 0 # use pointer loss (To turn it off, set it to 0)
+out_embed_size: null  # if set, use an additional layer before decoder output
+tie_embed: True  # tie the decoder output layer to the input embedding layer?
+
+# Coverage (to turn on/off, change both `enc_attn_cover` and `cover_loss`)
+enc_attn_cover: True  # provide coverage as input when computing enc attn?
+cover_func: 'sum'  # how to aggregate previous attention distributions? sum or max
+cover_loss: 0.4  # add coverage loss if > 0; weight of coverage loss as compared to NLLLoss
+show_cover_loss: True  # include coverage loss in the loss shown in the progress bar?
+
+# Regularization
+word_dropout: 0.4
+edge_dropout: 0.3
+# rnn_dropout: 0.3 # dropout for regularization, used after each RNN hidden layer. 0 = no dropout
+# dropoutrec: 0.3 # dropout for regularization, used after each c_i. 0 = no dropout
+dropoutagg: 0 # dropout for regularization, used after each aggregator. 0 = no dropout
+enc_rnn_dropout: 0.3
+dec_rnn_dropout: 0.3
+dec_in_dropout: 0
+dec_out_dropout: 0
+
+
+# Graph neural networks
+bignn: True
+graph_type: 'static' # 'static', 'dynamic', 'hybrid', 'hybrid_sep'
+graph_learner_topk: 10
+graph_learner_num_pers: 16
+message_function: 'no_edge' # 'edge_mm', 'edge_network', 'edge_pair', 'no_edge'
+graph_hops: 3 # 3 is optimal
+
+
+# # Bert configure
+use_bert: True
+finetune_bert: True
+use_bert_weight: True
+use_bert_gamma: False
+bert_model: 'bert-large-uncased'
+bert_dropout: 0.4
+bert_dim: 1024
+bert_max_seq_len: 500
+bert_doc_stride: 250
+bert_layer_indexes:
+  - 0
+  - 24
+
+
+# Training
+optimizer: 'adam'
+learning_rate: 0.00001
+grad_clipping: 10
+grad_accumulated_steps: 2
+eary_stop_metric: 'Bleu_4'
+
+random_seed: 1234
+shuffle: True # Whether to shuffle the examples during training
+max_epochs: 200
+batch_size: 25 # No. of dialogs per batch
+patience: 10
+verbose: 1000 # Print every X batches
+
+forcing_ratio: 0.75  # initial percentage of using teacher forcing
+partial_forcing: True  # in a seq, can some steps be teacher forced and some not? partial_forcing works much better as mentioned in the origin paper
+forcing_decay_type: 'exp'  # linear, exp, sigmoid, or None
+forcing_decay: 0.9999
+sample: False  # are non-teacher forced inputs based on sampling or greedy selection?
+# note: enabling reinforcement learning can significantly slow down training
+rl_ratio: 0.99  # use mixed objective if > 0; ratio of RL in the loss function
+rl_ratio_power: 1  #0.7 # increase rl_ratio by **= rl_ratio_power after each epoch; (0, 1]
+rl_start_epoch: 1  # start RL at which epoch (later start can ensure a strong baseline)?
+max_rl_ratio: 0.99
+rl_reward_metric: 'Bleu_4'
+
+
+# Testing
+test_batch_size: 25
+out_len_in_words: False # Only for beam search
+out_predictions: True # Whether to output predictions
+save_params: True # Whether to save params
+logging: True # Turn it off for Codalab
+
+# Beam search
+beam_size: 5
+min_out_len: 4 # Only for beam search
+max_out_len: 40 # Only for beam search
+block_ngram_repeat: 0 # Block repetition of ngrams during decoding. (To turn it off, set it to 0)
+
+
+# Device
+no_cuda: False
+cuda_id: 0
