@@ -66,7 +66,7 @@ class Model(object):
         self._init_optimizer()
 
 
-        if config['rl_wmd_ratio'] > 0:
+        if config.get('rl_wmd_ratio', 0) > 0:
             self.wmd = WMD(config.get('wmd_emb_file', None))
         else:
             self.wmd = None
@@ -216,7 +216,7 @@ def train_batch(batch, network, vocab, criterion, forcing_ratio, rl_ratio, confi
                 greedy_score = scores[1][config['rl_reward_metric']]
                 reward_ = scores[0][config['rl_reward_metric']] - greedy_score
 
-                if config['rl_wmd_ratio'] > 0:
+                if config.get('rl_wmd_ratio', 0) > 0:
                     # Add word mover's distance
                     sample_seq = batch_decoded_index2word([sample_out_decoded[i]], vocab, batch['oov_dict'])[0]
                     greedy_seq = batch_decoded_index2word([baseline_out_decoded[i]], vocab, batch['oov_dict'])[0]
@@ -225,7 +225,7 @@ def train_batch(batch, network, vocab, criterion, forcing_ratio, rl_ratio, confi
                     greedy_wmd = -wmd.distance(greedy_seq, batch['target_src'][i]) / max(len(greedy_seq.split()), 1)
                     wmd_reward_ = sample_wmd - greedy_wmd
                     wmd_reward_ = max(min(wmd_reward_, config.get('max_wmd_reward', 3)), -config.get('max_wmd_reward', 3))
-                    reward_ += config['rl_wmd_ratio'] * wmd_reward_
+                    reward_ += config.get('rl_wmd_ratio', 0) * wmd_reward_
 
                 neg_reward.append(reward_)
             neg_reward = to_cuda(torch.Tensor(neg_reward), network.device)
