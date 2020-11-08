@@ -1,5 +1,5 @@
 # RL-based-Graph2Seq-for-NQG
-Code & data accompanying the ICLR 2020 paper "Reinforcement Learning Based Graph-to-Sequence Model for Natural Question Generation"
+Code & data accompanying the ICLR 2020 paper ["Reinforcement Learning Based Graph-to-Sequence Model for Natural Question Generation"](https://arxiv.org/abs/1908.04942).
 
 ## Get started
 
@@ -18,11 +18,8 @@ Please take the following steps to create a python virtual environment.
 
 ### Run the model
 
-* Download the preprocessed data from [squad-split1](https://drive.google.com/drive/folders/1EoIqyqaSIsES_MrsKnHNx4SYRIxom0YD) and [squad-split2](https://drive.google.com/drive/folders/11gett0qzTW2SvNjjcRLJik-FommhP8bs). And put the data under the root directory. So the file hierarchy will be like: `data/squad-split1` and `data/squad-split2`. 
+* Download the preprocessed data from [squad-split1](https://1drv.ms/u/s!AjiSpuwVTt09gUda3WWPURcCfubF?e=eFhgUQ) and [squad-split2](https://1drv.ms/u/s!AjiSpuwVTt09gUiTsPKFj4hy4RzU?e=bhk65z). And put the data under the root directory. So the file hierarchy will be like: `data/squad-split1` and `data/squad-split2`. 
 
-
-<!--(Note: if you cannot access the above data, please download from [here](http://academic.hugochan.net/download/graphflow-data.zip).)
--->
 
 * Run the model
 
@@ -47,13 +44,12 @@ Please take the following steps to create a python virtual environment.
 
 If you found this code useful, please consider citing the following paper:
 
-Yu Chen, Lingfei Wu and Mohammed J. Zaki. **"Reinforcement Learning Based Graph-to-Sequence Model for Natural Question Generation."** In *Proceedings of the 8th International Conference on Learning Representations (ICLR 2020), Addis Ababa, Ethiopia, Apr 26-30, 2020.*
+Yu Chen, Lingfei Wu and Mohammed J. Zaki. **"Reinforcement Learning Based Graph-to-Sequence Model for Natural Question Generation."** In *Proceedings of the 8th International Conference on Learning Representations (ICLR 2020), Addis Ababa, Ethiopia, Apr. 26-30, 2020.*
 
 
-	@article{chen2019reinforcement,
-	  title={Reinforcement learning based graph-to-sequence model for natural question generation},
-	  author={Chen, Yu and Wu, Lingfei and Zaki, Mohammed J},
-	  journal={arXiv preprint arXiv:1908.04942},
-	  year={2019}
-	}
-	
+	@inproceedings{chen2019reinforcement,
+    author    = {Chen, Yu and Wu, Lingfei and Zaki, Mohammed J.},
+    title     = {Reinforcement Learning Based Graph-to-Sequence Model for Natural Question Generation},
+    booktitle = {Proceedings of the 8th International Conference on Learning Representations},
+    month = {Apr. 26-30,},
+    year      = {2020}}

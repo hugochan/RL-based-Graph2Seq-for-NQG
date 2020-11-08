@@ -2,3 +2,4 @@
 out/
 data/
 script/
+*.DS_Store
