@@ -1,5 +1,5 @@
 torch==0.4.1.post2
 pytorch-pretrained-bert==0.6.2
 gensim==3.5.0
-numpy==1.14.5
+numpy==1.22.0
 PyYAML==5.1
